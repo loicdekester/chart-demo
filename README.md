@@ -1,24 +1,30 @@
-# chart-test
+# chart-demo
+Example to demonstrate how to retrieve data from the FastSensor API and displaying it as a line chart.
+The front end framework used is Vue.js, the library to display the data is Chart.js and for the layout bootstrap. 
 
-## Project setup
-```
-npm install
-```
+## Instructions
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+To install this example on your computer, clone the repository and install
+dependencies.
 
-### Compiles and minifies for production
-```
-npm run build
+```bash
+$ git clone https://github.com/loicdekester/chart-demo.git
+$ cd chart-demo
+$ npm install
 ```
 
-### Lints and fixes files
+Start the server.
+
+```bash
+$ npm run serve
 ```
-npm run lint
+Open a web browser and navigate to http://localhost:8080/
+
+## Unit Testing
+
+To run the unit tests : 
+
+```bash
+$ npm run test
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
