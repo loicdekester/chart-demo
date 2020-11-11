@@ -70,10 +70,12 @@ describe('CommonService', () => {
     });
     it('dataCollection.labels is an array of dates formatted YYYY-MM-DD', () => {
       expect(Array.isArray(formattedData.dataCollection.labels)).toBeTruthy();
+      expect(formattedData.dataCollection.labels.length).toBe(1);
       expect(formattedData.dataCollection.labels[0]).toMatch(/\d{4}-\d{2}-\d{2}/);
     });
     it('returns an array of objects with properties x and y named formattedData', () => {
       expect(Array.isArray(formattedData.dataCollection.datasets[0].data)).toBeTruthy();
+      expect(formattedData.dataCollection.datasets[0].data.length).toBe(1);
       expect(formattedData.dataCollection.datasets[0].data[0]).toHaveProperty('x');
       expect(formattedData.dataCollection.datasets[0].data[0]).toHaveProperty('y');
     });

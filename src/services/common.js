@@ -15,23 +15,23 @@ const CommonService = {
     data.forEach(element => {
       rawData.push(moment.unix(element.timestamp).format("YYYY-MM-DD"));
     });
-    rawData.forEach(e => {
-      const index = formattedData.findIndex(f => {
-        if (f.x) {
-          return f.x === e;
-        } else {
-          return false;
+    formattedData.push({ x: rawData[0], y: 1 });
+    max = 1;
+    let j = 0;
+    for (let i = 1; i < rawData.length;) {
+      while (rawData[i] && rawData[i] === formattedData[j].x) {
+        formattedData[j].y += 1;
+        if (max < formattedData[j].y) {
+          max = formattedData[j].y;
         }
-      });
-      if (index != -1) {
-        formattedData[index].y += 1;
-        if (max < formattedData[index].y) {
-          max = formattedData[index].y
-        }
-      } else {
-        formattedData.push({ x: e, y: 1 });
+        i++;
       }
-    });
+      if (rawData[i]) {
+        formattedData.push({ x: rawData[i], y: 1 });
+        j++;
+        i++;
+      }
+    }
     const labels = [...new Set(rawData)];
     const dataCollection = this.createDataCollection(formattedData, labels);
     const options = this.createOptions(labels.length, max);
