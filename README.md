@@ -4,8 +4,13 @@ The front end framework used is Vue.js, the library to display the data is Chart
 
 ## Instructions
 
-To install this example on your computer, clone the repository and install
-dependencies.
+To install this example on your computer, make sure you have node.js installed. 
+If you do not have vue-cli go ahead and install it globally:
+
+```bash
+$ npm install -g @vue/cli
+```
+Then clone the repository and install the dependencies.
 
 ```bash
 $ git clone https://github.com/loicdekester/chart-demo.git
@@ -28,3 +33,4 @@ To run the unit tests :
 $ npm run test
 ```
 
+This project was developed with node v12.18.3 and @vue/cli 4.5.2.
