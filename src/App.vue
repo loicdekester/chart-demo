@@ -4,14 +4,10 @@
     <AlertVue v-if="error && error.message" :message="error.message"/>
     <div class="container homepage">
       <h2>Welcome to this chart demo</h2>
-      <div>
+      <div class="container">
         <p>The data comes from the FastSensor API using the demo credentials.</p>
-      </div>
-      <div>
         <p>The default range of this chart is one week, from seven days ago to now.</p>
-      </div>
-      <div>
-        <p>You can change the dates and submit to display the data from different ranges.</p>
+        <p>You can change the dates and submit to display the data from different ranges. <small>(Although the range should be no more than 92 days)</small></p>
       </div>
       <form @submit.prevent="onSubmit()">
         <div class="row justify-content-center">
@@ -20,7 +16,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Start Date</span>
               </div>
-              <input id="startDate" type="date" class="form-control" v-model="startDate">
+              <input id="startDate" type="date" class="form-control" v-model="startDate" @change="isDateIntervalTooWide()">
             </div>
           </div>
           <div class="col-md-4">
@@ -28,10 +24,17 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">End Date</span>
               </div>
-              <input id="endDate" type="date" class="form-control" v-model="endDate">
+              <input id="endDate" type="date" class="form-control" v-model="endDate" @change="isDateIntervalTooWide()">
             </div>
           </div>
-          <button type="submit" class="btn btn-dark"> Submit </button>
+          <button type="submit" class="btn btn-dark" :disabled="tooWide"> Submit </button>
+        </div>
+        <div class="row justify-content-center help" v-if="tooWide">
+          <div class="col-lg-6">
+            <div class="alert alert-dark">
+              Range superior to 92 days. Please select smaller range
+            </div>
+          </div>
         </div>
       </form>
       <div class="container chart">
@@ -62,7 +65,8 @@ export default {
       startDate: null,
       endDate: null,
       loaded: false,
-      error: null
+      error: null,
+      tooWide: false
     }
   },
   async mounted () {
@@ -105,7 +109,10 @@ export default {
     },
     displayError(err) {
       this.error=err;
-      setInterval(()=>this.error = null,3000);
+      setInterval(()=>{this.error = null, 5000});
+    },
+    isDateIntervalTooWide() {
+      this.tooWide = moment(this.endDate).diff(moment(this.startDate), 'days')+1 > 92;
     }
   }
 }
@@ -118,5 +125,8 @@ export default {
 }
 .homepage {
   margin-top: 60px;
+}
+.help {
+  margin-top: 10px;
 }
 </style>
