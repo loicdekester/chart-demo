@@ -5,13 +5,13 @@
     <div class="container homepage">
       <h2>Welcome to this chart demo</h2>
       <div>
-        <p>The data comes from the FastSensor API using the demo credentials</p>
+        <p>The data comes from the FastSensor API using the demo credentials.</p>
       </div>
       <div>
-        <p>The default range of this chart is one week, from seven days ago to now</p>
+        <p>The default range of this chart is one week, from seven days ago to now.</p>
       </div>
       <div>
-        <p>You can change the dates and submit to display the data from different ranges</p>
+        <p>You can change the dates and submit to display the data from different ranges.</p>
       </div>
       <form @submit.prevent="onSubmit()">
         <div class="row justify-content-center">
@@ -35,7 +35,7 @@
         </div>
       </form>
       <div class="container chart">
-        <ChartVue v-if="loaded" :chartData="dataCollection" :options="options" />
+        <ChartVue v-if="loaded" :chartData="data.dataCollection" :options="data.options" />
       </div>
     </div>
   </div>
@@ -58,10 +58,9 @@ export default {
   },
   data () {
     return {
-      dataCollection: null,
+      data: null,
       startDate: null,
       endDate: null,
-      options: null,
       loaded: false,
       error: null
     }
@@ -98,15 +97,11 @@ export default {
       await this.getRange(moment(this.startDate).format("YYYY-MM-DD"), moment(this.endDate).format("YYYY-MM-DD"));
     },
     async getRange(startDate, endDate) {
-      let data = {};
       await ApiService.query(`v1/locations/${localStorage.getItem("location")}/alerts`, {start_date:startDate, end_date:endDate, selector:"[ADAM]"}).then( response => {
-        data = CommonService.formatData(response.data.data);
+        this.data = CommonService.formatData(response.data.data);
       }).catch(err => {
         this.displayError(err);
       });
-      const labels = [...new Set(data.rawData)];
-      this.dataCollection = CommonService.createDataCollection(data.formattedData, labels);
-      this.options = CommonService.createOptions(labels.length);
     },
     displayError(err) {
       this.error=err;
