@@ -1,6 +1,13 @@
 import moment from "moment";
 
 const CommonService = {
+
+  /**
+   * From the list of events given by the API call, returns an object with two lists. 
+   * rawData, a list of all the event dates, formatted YYYY-MM-DD
+   * formattedData, a list of objects with properties x --> date and y --> event count
+   * @param {Array} data - List of events from the API
+   */
   formatData(data) {
     const rawData = [];
     const formattedData = [];
@@ -24,6 +31,11 @@ const CommonService = {
     return { rawData, formattedData };
   },
 
+  /**
+   * Returns the data object for the chart with the datapoints and their labels and some options such as color and line width...
+   * @param {Array} formattedData - Array of objects {x: date, y: count}
+   * @param {Array} labels - Array of unique dates
+   */
   createDataCollection(formattedData, labels) {
     return {
       labels,
@@ -39,6 +51,12 @@ const CommonService = {
     }
   },
 
+  /**
+   * Returns the option object for the chart depending on the length of the data collection.
+   * The time scale switches from days to weeks if there is more than 15 days displayed,
+   * and changes from weeks to months if more than 60 days are displayed.
+   * @param {number} length - Length of the data points
+   */
   createOptions(length) {
     let time = {};
     if (length > 60) {
